@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        body {
+            background-color: #444444;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
+<link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
+<link rel="stylesheet" type="text/css"
+    href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" />
+
+<style>
+    #logoslider {
+        padding: 30px 0px;
+    }
+
+    ul.logoslider li img {
+        max-width: 100%;
+    }
+
+    #logoslider .slick-list .slick-track {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    #logoslider li {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    #logoslider .img-wrapper {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        min-width: 233px;
+        height: 95px;
+        background: #FFFFFF;
+        box-shadow: 0px 14px 44px rgba(118, 188, 33, 0.19);
+        border-radius: 4px;
+    }
+
+    @media (max-width:769px) {
+        #logoslider .img-wrapper {
+            min-width: auto;
+            padding: 0 10px;
+
+        }
+
+        #logoslider .img-wrapper img {
+            max-width: 100%;
+        }
+    }
+</style>
+
+<body>
+    <ul id="logoslider">
+        <li>
+            <div class="img-wrapper">
+                <img src="https://user-assets-unbounce-com.s3.amazonaws.com/df151a8d-bc3e-4fc6-b55a-df9cabcd993b/c109c651-f25e-4f0d-9151-605739eb3052/legoland-logo-1.original.svg"
+                    alt="">
+            </div>
+        </li>
+        <li>
+            <div class="img-wrapper">
+                <img src="https://user-assets-unbounce-com.s3.amazonaws.com/df151a8d-bc3e-4fc6-b55a-df9cabcd993b/5d87cd73-59aa-4120-a902-9e3a1a305cdd/group.original.svg"
+                    alt="">
+            </div>
+        </li>
+        <li>
+            <div class="img-wrapper">
+                <img src="https://user-assets-unbounce-com.s3.amazonaws.com/df151a8d-bc3e-4fc6-b55a-df9cabcd993b/d5c88c2e-aa48-4678-8863-2153051dd509/columbia-sportswear-co-logo-1.original.svg"
+                    alt="">
+            </div>
+        </li>
+        <li>
+            <div class="img-wrapper">
+                <img src="https://user-assets-unbounce-com.s3.amazonaws.com/df151a8d-bc3e-4fc6-b55a-df9cabcd993b/5718c632-5f20-4ba6-916d-6a72751ee0f9/145-1458201-bass-pro-shop-logo-png-transparent-png-1.original.svg"
+                    alt="">
+            </div>
+        </li>
+        <li>
+            <div class="img-wrapper">
+                <img src="https://user-assets-unbounce-com.s3.amazonaws.com/df151a8d-bc3e-4fc6-b55a-df9cabcd993b/f8d69df5-0ce9-48c6-8f80-e105aecaad60/group-1.original.svg"
+                    alt="">
+            </div>
+        </li>
+        <li>
+            <div class="img-wrapper">
+                <img src="https://user-assets-unbounce-com.s3.amazonaws.com/df151a8d-bc3e-4fc6-b55a-df9cabcd993b/7e96929f-2e0b-4973-a37b-ab89f9f9b170/skechers-logo-1.original.svg"
+                    alt="">
+            </div>
+        </li>
+        <li>
+            <div class="img-wrapper">
+                <img src="https://user-assets-unbounce-com.s3.amazonaws.com/df151a8d-bc3e-4fc6-b55a-df9cabcd993b/7153c1e4-8efa-44ff-a846-8b309313b070/mask-group-2.original.svg"
+                    alt="">
+            </div>
+        </li>
+        <li>
+            <div class="img-wrapper">
+                <img src="https://user-assets-unbounce-com.s3.amazonaws.com/df151a8d-bc3e-4fc6-b55a-df9cabcd993b/1803a718-3bd3-4bce-a161-eb7341c92e22/group-75.original.svg"
+                    alt="">
+            </div>
+        </li>
+    </ul>
+</body>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<script>
+    jQuery(document).ready(function () {
+        $('#logoslider').slick({
+            slidesToShow: 6,
+            slidesToScroll: 1,
+            dots: false,
+            arrows: false,
+            draggable: true,
+            autoplay: true,
+            infinite: true,
+            autoplaySpeed: 8000,
+            responsive: [{
+                breakpoint: 767,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    autoplaySpeed: 8000,
+                    adaptiveHeight: true,
+                    dots: false,
+                    arrows: false
+                }
+            }
+            ]
+        });
+
+    });
+</script>
+
+</html>

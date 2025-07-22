@@ -32,29 +32,40 @@
         }
 
         .product-card {
-            transition: all 0.3s ease;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transform: perspective(1000px) rotateY(0deg);
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
         }
 
         .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: perspective(1000px) translateY(-8px) rotateY(5deg) scale(1.03);
+            box-shadow: 0 25px 40px -10px rgba(0, 0, 0, 0.2), 0 15px 15px -10px rgba(0, 0, 0, 0.1);
         }
 
         .availability-dot {
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         .fade-in {
             opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s ease;
+            transform: translateY(30px) scale(0.95);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .fade-in.visible {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
 
         .category-tab {
@@ -64,6 +75,7 @@
         .category-tab.active {
             background-color: #1e40af;
             color: white;
+            transform: scale(1.05);
         }
 
         .search-container {
@@ -92,11 +104,13 @@
             border-radius: 4px;
             position: relative;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         .custom-checkbox:checked {
             background-color: #1e40af;
             border-color: #1e40af;
+            transform: rotate(360deg);
         }
 
         .custom-checkbox:checked::after {
@@ -104,10 +118,16 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%) scale(1);
             color: white;
             font-size: 12px;
             font-weight: bold;
+            animation: checkmark 0.3s ease-in-out;
+        }
+
+        @keyframes checkmark {
+            0% { transform: translate(-50%, -50%) scale(0); }
+            100% { transform: translate(-50%, -50%) scale(1); }
         }
 
         .price-range {
@@ -126,6 +146,12 @@
             border-radius: 50%;
             background: #1e40af;
             cursor: pointer;
+            box-shadow: 0 0 8px rgba(30, 64, 175, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .price-range::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
         }
 
         .price-range::-moz-range-thumb {
@@ -135,10 +161,17 @@
             background: #1e40af;
             cursor: pointer;
             border: none;
+            box-shadow: 0 0 8px rgba(30, 64, 175, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .price-range::-moz-range-thumb:hover {
+            transform: scale(1.2);
         }
 
         .product-image {
             position: relative;
+            overflow: hidden;
         }
 
         .product-overlay {
@@ -147,32 +180,253 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.7);
             display: flex;
             justify-content: center;
             align-items: center;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transform: scale(0.8);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
         .product-image:hover .product-overlay {
             opacity: 1;
+            transform: scale(1);
         }
 
         .product-overlay a {
             background-color: #1e40af;
             color: white;
-            padding: 8px 16px;
+            padding: 10px 20px;
             border-radius: 8px;
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
-            margin: 0 8px;
-            transition: background-color 0.3s ease;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        .product-image:hover .product-overlay a {
+            transform: translateY(0);
+            opacity: 1;
+            transition-delay: 0.1s;
         }
 
         .product-overlay a:hover {
             background-color: #3b82f6;
+            transform: scale(1.1);
+        }
+
+        .product-overlay a:nth-child(1) {
+            transition-delay: 0.1s;
+        }
+
+        .product-overlay a:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+
+        .inquire-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .inquire-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .inquire-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        @keyframes shine {
+            0% { background-position: -200%; }
+            100% { background-position: 200%; }
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: left 0.7s ease;
+        }
+
+        .product-card:hover::before {
+            left: 100%;
+        }
+        .nav-button {
+            border: none;
+            width: 140px;
+            height: 50px;
+            color: #fff;
+            z-index: 1;
+            display: flex;
+            background: #000;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-button p {
+            margin: 0 auto;
+            align-self: center;
+            font-size: 17px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .nav-button::after {
+            position: absolute;
+            content: "";
+            width: 100%;
+            z-index: -1;
+            height: 10%;
+            bottom: 0;
+            clip-path: polygon(0% 74%,
+                    4% 75%,
+                    8% 76%,
+                    11% 77%,
+                    15% 78%,
+                    20% 78%,
+                    25% 77%,
+                    32% 77%,
+                    37% 75%,
+                    40% 74%,
+                    43% 74%,
+                    46% 73%,
+                    52% 72%,
+                    57% 72%,
+                    65% 74%,
+                    66% 75%,
+                    71% 78%,
+                    75% 82%,
+                    81% 86%,
+                    83% 88%,
+                    88% 91%,
+                    90% 94%,
+                    94% 96%,
+                    98% 98%,
+                    100% 100%,
+                    82% 100%,
+                    0 100%);
+            background: #8792eb;
+            transition: 0.2s ease;
+        }
+
+        .nav-button::before {
+            position: absolute;
+            content: "";
+            transform: rotate(180deg);
+            width: 100%;
+            height: 10%;
+            transition: 0.2s ease;
+            z-index: -1;
+            clip-path: polygon(0% 74%,
+                    4% 75%,
+                    8% 76%,
+                    11% 77%,
+                    15% 78%,
+                    20% 78%,
+                    25% 77%,
+                    32% 77%,
+                    37% 75%,
+                    40% 74%,
+                    43% 74%,
+                    46% 73%,
+                    52% 72%,
+                    57% 72%,
+                    65% 74%,
+                    66% 75%,
+                    71% 78%,
+                    75% 82%,
+                    81% 86%,
+                    83% 88%,
+                    88% 91%,
+                    90% 94%,
+                    94% 96%,
+                    98% 98%,
+                    100% 100%,
+                    82% 100%,
+                    0 100%);
+            background: #8792eb;
+        }
+
+        .nav-button:hover::after {
+            clip-path: polygon(0 30%, 9% 34%, 7% 39%, 11% 43%,
+                    13% 33%,
+                    17% 30%,
+                    24% 34%,
+                    25% 35%,
+                    30% 31%,
+                    30% 38%,
+                    39% 33%,
+                    35% 43%,
+                    43% 45%,
+                    55% 46%,
+                    65% 74%,
+                    67% 66%,
+                    81% 57%,
+                    75% 82%,
+                    81% 86%,
+                    83% 88%,
+                    88% 91%,
+                    90% 94%,
+                    94% 96%,
+                    98% 98%,
+                    100% 100%,
+                    82% 100%,
+                    0 100%);
+            height: 80%;
+        }
+
+        .nav-button:hover::before {
+            clip-path: polygon(0 30%,
+                    9% 34%,
+                    7% 39%,
+                    11% 43%,
+                    13% 33%,
+                    17% 30%,
+                    24% 34%,
+                    25% 35%,
+                    30% 31%,
+                    30% 38%,
+                    39% 33%,
+                    35% 43%,
+                    43% 45%,
+                    55% 46%,
+                    65% 74%,
+                    67% 66%,
+                    81% 57%,
+                    75% 82%,
+                    81% 86%,
+                    83% 88%,
+                    88% 91%,
+                    90% 94%,
+                    94% 96%,
+                    98% 98%,
+                    100% 100%,
+                    82% 100%,
+                    0 100%);
+            height: 80%;
         }
     </style>
 </head>
@@ -183,13 +437,30 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center">
-                    <img src="./Image/logo.png" alt="Kunjal Group Logo" class="h-8 w-8 mr-2">
+                    <img src="./Image/logo.png" alt="Kunjal Group Logo" class="h-12 w-10 mr-2">
+                    <!-- <h1 class="text-2xl font-['Pacifico'] text-primary">Group</h1> -->
                 </div>
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="./index.html" class="text-gray-700 hover:text-primary transition-colors">Home</a>
-                    <a href="./about.html" class="text-gray-700 hover:text-primary transition-colors">About</a>
-                    <a href="./product.html" class="text-gray-700 hover:text-primary transition-colors">Products</a>
-                    <a href="./contact.html" class="text-gray-700 hover:text-primary transition-colors">Contact</a>
+                    <a href="./index.html">
+                        <button class="nav-button">
+                            <p>Home</p>
+                        </button>
+                    </a>
+                    <a href="./about.html">
+                        <button class="nav-button">
+                            <p>About</p>
+                        </button>
+                    </a>
+                    <a href="./product.html">
+                        <button class="nav-button">
+                            <p>Products</p>
+                        </button>
+                    </a>
+                    <a href="./contact.html">
+                        <button class="nav-button">
+                            <p>Contact</p>
+                        </button>
+                    </a>
                 </div>
                 <button class="md:hidden w-8 h-8 flex items-center justify-center" id="mobile-menu-btn">
                     <i class="ri-menu-line text-xl"></i>
@@ -198,10 +469,26 @@
         </div>
         <div class="md:hidden hidden bg-white border-t border-gray-200" id="mobile-menu">
             <div class="px-4 py-2 space-y-1">
-                <a href="./index.html" class="block px-3 py-2 text-gray-700 hover:text-primary">Home</a>
-                <a href="./about.html" class="block px-3 py-2 text-gray-700 hover:text-primary">About</a>
-                <a href="./product.html" class="block px-3 py-2 text-gray-700 hover:text-primary">Products</a>
-                <a href="./contact.html" class="block px-3 py-2 text-gray-700 hover:text-primary">Contact</a>
+                <a href="./index.html" class="block px-3 py-2">
+                    <button class="nav-button">
+                        <p>Home</p>
+                    </button>
+                </a>
+                <a href="./about.html" class="block px-3 py-2">
+                    <button class="nav-button">
+                        <p>About</p>
+                    </button>
+                </a>
+                <a href="./product.html" class="block px-3 py-2">
+                    <button class="nav-button">
+                        <p>Products</p>
+                    </button>
+                </a>
+                <a href="./contact.html" class="block px-3 py-2">
+                    <button class="nav-button">
+                        <p>Contact</p>
+                    </button>
+                </a>
             </div>
         </div>
     </nav>
@@ -209,8 +496,8 @@
     <div class="pt-16 min-h-screen">
         <div class="w-full px-4 sm:px-6 lg:px-8 py-8">
             <div class="mb-8">
-                <h1 class="text-4xl font-bold text-gray-900 mb-4">Product Catalog</h1>
-                <p class="text-lg text-gray-600">Explore our Products</p>
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">Product catalogue</h1>
+                <p class="text-lg text-gray-600">Explore our Products</ all products></p>
             </div>
             <div id="filter-panel"
                 class="bg-white rounded-lg border border-gray-200 mb-8 overflow-hidden filter-dropdown">
@@ -285,17 +572,17 @@
                 <button
                     class="category-tab px-4 py-2 !rounded-button text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors whitespace-nowrap"
                     data-category="catagory-1">
-                    catagory-1
+                    Categories-1
                 </button>
                 <button
                     class="category-tab px-4 py-2 !rounded-button text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors whitespace-nowrap"
                     data-category="catagory-2">
-                    catagory-2
+                    Categories-2
                 </button>
                 <button
                     class="category-tab px-4 py-2 !rounded-button text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors whitespace-nowrap"
                     data-category="catagory-3">
-                    catagory-3
+                    Categories-3
                 </button>
             </div>
 
@@ -337,7 +624,7 @@
                         <div class="flex items-center justify-between">
                             <a href="./contact.html">
                                 <button
-                                    class="bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
+                                    class="inquire-btn bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
                                     Inquire Now
                                 </button>
                             </a>
@@ -381,7 +668,7 @@
                         <div class="flex items-center justify-between">
                             <a href="./contact.html">
                                 <button
-                                    class="bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
+                                    class="inquire-btn bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
                                     Inquire Now
                                 </button>
                             </a>
@@ -425,7 +712,7 @@
                         <div class="flex items-center justify-between">
                             <a href="./contact.html">
                                 <button
-                                    class="bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
+                                    class="inquire-btn bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
                                     Inquire Now
                                 </button>
                             </a>
@@ -461,7 +748,6 @@
                                     <li>Acetone</li>
                                     <li>C10</li>
                                     <li>Styrene Monomer (SM)</li>
-35
                                     <li>Heavy Aromatics</li>
                                     <li>Pyrolysis Gasoline (Pygas)</li>
                                 </ul>
@@ -470,7 +756,7 @@
                         <div class="flex items-center justify-between">
                             <a href="./contact.html">
                                 <button
-                                    class="bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
+                                    class="inquire-btn bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
                                     Inquire Now
                                 </button>
                             </a>
@@ -514,7 +800,7 @@
                         <div class="flex items-center justify-between">
                             <a href="./contact.html">
                                 <button
-                                    class="bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
+                                    class="inquire-btn bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
                                     Inquire Now
                                 </button>
                             </a>
@@ -558,7 +844,7 @@
                         <div class="flex items-center justify-between">
                             <a href="./contact.html">
                                 <button
-                                    class="bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
+                                    class="inquire-btn bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
                                     Inquire Now
                                 </button>
                             </a>
@@ -602,7 +888,7 @@
                         <div class="flex items-center justify-between">
                             <a href="./contact.html">
                                 <button
-                                    class="bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
+                                    class="inquire-btn bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
                                     Inquire Now
                                 </button>
                             </a>
@@ -646,7 +932,7 @@
                         <div class="flex items-center justify-between">
                             <a href="./contact.html">
                                 <button
-                                    class="bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
+                                    class="inquire-btn bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
                                     Inquire Now
                                 </button>
                             </a>
@@ -690,7 +976,7 @@
                         <div class="flex items-center justify-between">
                             <a href="./contact.html">
                                 <button
-                                    class="bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
+                                    class="inquire-btn bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
                                     Inquire Now
                                 </button>
                             </a>
@@ -734,7 +1020,7 @@
                         <div class="flex items-center justify-between">
                             <a href="./contact.html">
                                 <button
-                                    class="bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
+                                    class="inquire-btn bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
                                     Inquire Now
                                 </button>
                             </a>
@@ -778,7 +1064,7 @@
                         <div class="flex items-center justify-between">
                             <a href="./contact.html">
                                 <button
-                                    class="bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
+                                    class="inquire-btn bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
                                     Inquire Now
                                 </button>
                             </a>
@@ -786,15 +1072,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="fixed bottom-6 right-6 z-40">
-            <button id="contact-fab"
-                class="w-14 h-14 bg-primary hover:bg-blue-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center">
-                <div class="w-6 h-6 flex items-center justify-center">
-                    <i class="ri-message-3-line text-xl"></i>
-                </div>
-            </button>
         </div>
 
         <div class="fixed bottom-6 left-6 z-40">
@@ -810,7 +1087,7 @@
             <div class="max-w-7xl mx-auto px-4 xs:px-2 sm:px-6 lg:px-8">
                 <div class="grid md:grid-cols-3 gap-8 xs:gap-6 mb-8">
                     <div>
-                        <img src="./Image/logo.png" alt="Kunjal Group Logo" class="h-8 w-8 mr-2">
+                        <img src="./Image/logo.png" alt="Kunjal Group Logo" class="h-12 w-10 mr-2">
                         <p class="text-gray-400">Delivering petrochemical solutions across borders since 1983.</p>
                     </div>
                     <div>

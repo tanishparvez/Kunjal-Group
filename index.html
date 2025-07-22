@@ -50,6 +50,235 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        .nav-button {
+            border: none;
+            width: 140px;
+            height: 50px;
+            color: #fff;
+            z-index: 1;
+            display: flex;
+            background: #000;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-button p {
+            margin: 0 auto;
+            align-self: center;
+            font-size: 17px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .nav-button::after {
+            position: absolute;
+            content: "";
+            width: 100%;
+            z-index: -1;
+            height: 10%;
+            bottom: 0;
+            clip-path: polygon(0% 74%,
+                    4% 75%,
+                    8% 76%,
+                    11% 77%,
+                    15% 78%,
+                    20% 78%,
+                    25% 77%,
+                    32% 77%,
+                    37% 75%,
+                    40% 74%,
+                    43% 74%,
+                    46% 73%,
+                    52% 72%,
+                    57% 72%,
+                    65% 74%,
+                    66% 75%,
+                    71% 78%,
+                    75% 82%,
+                    81% 86%,
+                    83% 88%,
+                    88% 91%,
+                    90% 94%,
+                    94% 96%,
+                    98% 98%,
+                    100% 100%,
+                    82% 100%,
+                    0 100%);
+            background: #8792eb;
+            transition: 0.2s ease;
+        }
+
+        .nav-button::before {
+            position: absolute;
+            content: "";
+            transform: rotate(180deg);
+            width: 100%;
+            height: 10%;
+            transition: 0.2s ease;
+            z-index: -1;
+            clip-path: polygon(0% 74%,
+                    4% 75%,
+                    8% 76%,
+                    11% 77%,
+                    15% 78%,
+                    20% 78%,
+                    25% 77%,
+                    32% 77%,
+                    37% 75%,
+                    40% 74%,
+                    43% 74%,
+                    46% 73%,
+                    52% 72%,
+                    57% 72%,
+                    65% 74%,
+                    66% 75%,
+                    71% 78%,
+                    75% 82%,
+                    81% 86%,
+                    83% 88%,
+                    88% 91%,
+                    90% 94%,
+                    94% 96%,
+                    98% 98%,
+                    100% 100%,
+                    82% 100%,
+                    0 100%);
+            background: #8792eb;
+        }
+
+        .nav-button:hover::after {
+            clip-path: polygon(0 30%, 9% 34%, 7% 39%, 11% 43%,
+                    13% 33%,
+                    17% 30%,
+                    24% 34%,
+                    25% 35%,
+                    30% 31%,
+                    30% 38%,
+                    39% 33%,
+                    35% 43%,
+                    43% 45%,
+                    55% 46%,
+                    65% 74%,
+                    67% 66%,
+                    81% 57%,
+                    75% 82%,
+                    81% 86%,
+                    83% 88%,
+                    88% 91%,
+                    90% 94%,
+                    94% 96%,
+                    98% 98%,
+                    100% 100%,
+                    82% 100%,
+                    0 100%);
+            height: 80%;
+        }
+
+        .nav-button:hover::before {
+            clip-path: polygon(0 30%,
+                    9% 34%,
+                    7% 39%,
+                    11% 43%,
+                    13% 33%,
+                    17% 30%,
+                    24% 34%,
+                    25% 35%,
+                    30% 31%,
+                    30% 38%,
+                    39% 33%,
+                    35% 43%,
+                    43% 45%,
+                    55% 46%,
+                    65% 74%,
+                    67% 66%,
+                    81% 57%,
+                    75% 82%,
+                    81% 86%,
+                    83% 88%,
+                    88% 91%,
+                    90% 94%,
+                    94% 96%,
+                    98% 98%,
+                    100% 100%,
+                    82% 100%,
+                    0 100%);
+            height: 80%;
+        }
+
+        /* Partners Slider */
+        @keyframes slide {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .animate-slide {
+            display: flex;
+            animation: slide 20s linear infinite;
+        }
+
+        .animate-slide:hover {
+            animation-play-state: paused;
+        }
+
+        #partners-slider {
+            width: 200%; /* Double the width to accommodate duplicated items for seamless looping */
+        }
+
+        /* Clients Sliders */
+        @keyframes slide-left {
+            0% {
+                transform: translateX(-50%);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slide-right {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .animate-slide-left {
+            display: flex;
+            animation: slide-left 20s linear infinite;
+        }
+
+        .animate-slide-right {
+            display: flex;
+            animation: slide-right 20s linear infinite;
+        }
+
+        .animate-slide-left:hover,
+        .animate-slide-right:hover {
+            animation-play-state: paused;
+        }
+
+        #clients-slider-top,
+        #clients-slider-bottom {
+            width: 200%; /* Double the width for seamless looping */
+        }
+
+        @media (max-width: 767px) {
+            .animate-slide {
+                animation: slide 15s linear infinite; /* Faster partners animation on mobile */
+            }
+            .animate-slide-left {
+                animation: slide-left 15s linear infinite; /* Faster top slider on mobile */
+            }
+            .animate-slide-right {
+                animation: slide-right 15s linear infinite; /* Faster bottom slider on mobile */
+            }
+        }
     </style>
 </head>
 
@@ -58,14 +287,29 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center">
-    <img src="./Image/logo.png" alt="Kunjal Group Logo" class="h-8 w-8 mr-2">
-    <!-- <h1 class="text-2xl font-['Pacifico'] text-primary">Group</h1> -->
-</div>
+                    <img src="./Image/logo.png" alt="Kunjal Group Logo" class="h-12 w-10 mr-2">
+                </div>
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="./index.html" class="text-gray-700 hover:text-primary transition-colors">Home</a>
-                    <a href="./about.html" class="text-gray-700 hover:text-primary transition-colors">About</a>
-                    <a href="./product.html" class="text-gray-700 hover:text-primary transition-colors">Products</a>
-                    <a href="./contact.html" class="text-gray-700 hover:text-primary transition-colors">Contact</a>
+                    <a href="./index.html">
+                        <button class="nav-button">
+                            <p>Home</p>
+                        </button>
+                    </a>
+                    <a href="./about.html">
+                        <button class="nav-button">
+                            <p>About</p>
+                        </button>
+                    </a>
+                    <a href="./product.html">
+                        <button class="nav-button">
+                            <p>Products</p>
+                        </button>
+                    </a>
+                    <a href="./contact.html">
+                        <button class="nav-button">
+                            <p>Contact</p>
+                        </button>
+                    </a>
                 </div>
                 <button class="md:hidden w-8 h-8 flex items-center justify-center" id="mobile-menu-btn">
                     <i class="ri-menu-line text-xl"></i>
@@ -74,10 +318,26 @@
         </div>
         <div class="md:hidden hidden bg-white border-t border-gray-200" id="mobile-menu">
             <div class="px-4 py-2 space-y-1">
-                <a href="./index.html" class="block px-3 py-2 text-gray-700 hover:text-primary">Home</a>
-                <a href="./about.html" class="block px-3 py-2 text-gray-700 hover:text-primary">About</a>
-                <a href="./product.html" class="block px-3 py-2 text-gray-700 hover:text-primary">Products</a>
-                <a href="./contact.html" class="block px-3 py-2 text-gray-700 hover:text-primary">Contact</a>
+                <a href="./index.html" class="block px-3 py-2">
+                    <button class="nav-button">
+                        <p>Home</p>
+                    </button>
+                </a>
+                <a href="./about.html" class="block px-3 py-2">
+                    <button class="nav-button">
+                        <p>About</p>
+                    </button>
+                </a>
+                <a href="./product.html" class="block px-3 py-2">
+                    <button class="nav-button">
+                        <p>Products</p>
+                    </button>
+                </a>
+                <a href="./contact.html" class="block px-3 py-2">
+                    <button class="nav-button">
+                        <p>Contact</p>
+                    </button>
+                </a>
             </div>
         </div>
     </nav>
@@ -175,144 +435,221 @@
                 <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Our Partners</h2>
                 <p class="text-xl text-gray-600">Trusted by industry leaders worldwide</p>
             </div>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center">
-                <div
-                    class="bg-gray-100 p-6 rounded-lg hover:bg-gray-200 transition-colors fade-in flex items-center justify-center min-h-24">
-                    <div class="text-center">
-                        <div class="w-6 h-6 flex items-center justify-center mx-auto mb-2">
-                            <i class="ri-oil-line text-2xl text-gray-600"></i>
+            <div class="relative overflow-hidden">
+                <div class="flex animate-slide" id="partners-slider">
+                    <!-- Partner Items -->
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/Kempar Logo.avif" alt="Kempar Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
                         </div>
-                        <span class="text-sm font-semibold text-gray-700">Kempar</span>
                     </div>
-                </div>
-                <div
-                    class="bg-gray-100 p-6 rounded-lg hover:bg-gray-200 transition-colors fade-in flex items-center justify-center min-h-24">
-                    <div class="text-center">
-                        <div class="w-6 h-6 flex items-center justify-center mx-auto mb-2">
-                            <i class="ri-gas-station-line text-2xl text-gray-600"></i>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/Petron.avif" alt="Petron Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
                         </div>
-                        <span class="text-sm font-semibold text-gray-700">Petron</span>
                     </div>
-                </div>
-                <div
-                    class="bg-gray-100 p-6 rounded-lg hover:bg-gray-200 transition-colors fade-in flex items-center justify-center min-h-24">
-                    <div class="text-center">
-                        <div class="w-6 h-6 flex items-center justify-center mx-auto mb-2">
-                            <i class="ri-building-line text-2xl text-gray-600"></i>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/PTT.avif" alt="PTT Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
                         </div>
-                        <span class="text-sm font-semibold text-gray-700">PTT</span>
                     </div>
-                </div>
-                <div
-                    class="bg-gray-100 p-6 rounded-lg hover:bg-gray-200 transition-colors fade-in flex items-center justify-center min-h-24">
-                    <div class="text-center">
-                        <div class="w-6 h-6 flex items-center justify-center mx-auto mb-2">
-                            <i class="ri-flask-line text-2xl text-gray-600"></i>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/gc_polyols_logo.avif" alt="GC Polyols Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
                         </div>
-                        <span class="text-sm font-semibold text-gray-700">GC Polyols</span>
                     </div>
-                </div>
-                <div
-                    class="bg-gray-100 p-6 rounded-lg hover:bg-gray-200 transition-colors fade-in flex items-center justify-center min-h-24">
-                    <div class="text-center">
-                        <div class="w-6 h-6 flex items-center justify-center mx-auto mb-2">
-                            <i class="ri-computer-line text-2xl text-gray-600"></i>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/LG Chem.avif" alt="LG Chem Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
                         </div>
-                        <span class="text-sm font-semibold text-gray-700">LG Chem</span>
                     </div>
-                </div>
-                <div
-                    class="bg-gray-100 p-6 rounded-lg hover:bg-gray-200 transition-colors fade-in flex items-center justify-center min-h-24">
-                    <div class="text-center">
-                        <div class="w-6 h-6 flex items-center justify-center mx-auto mb-2">
-                            <i class="ri-building-2-line text-2xl text-gray-600"></i>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/Siam_Cement_Group_Logo_svg.avif" alt="Siam Cement Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
                         </div>
-                        <span class="text-sm font-semibold text-gray-700">Siam Cement</span>
+                    </div>
+                    <!-- Duplicate Partner Items for Seamless Looping -->
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/Kempar Logo.avif" alt="Kempar Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
+                        </div>
+                    </div>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/Petron.avif" alt="Petron Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
+                        </div>
+                    </div>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/PTT.avif" alt="PTT Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
+                        </div>
+                    </div>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/gc_polyols_logo.avif" alt="GC Polyols Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
+                        </div>
+                    </div>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/LG Chem.avif" alt="LG Chem Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
+                        </div>
+                    </div>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/Siam_Cement_Group_Logo_svg.avif" alt="Siam Cement Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <section id="contact" class="py-20 bg-gray-50">
+    <section id="clients" class="py-20 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 fade-in">
-                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Get in Touch</h2>
-                <p class="text-xl text-gray-600">Ready to streamline your raw material and supply chain needs?</p>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Our Clients</h2>
+                <p class="text-xl text-gray-600">Serving industry leaders worldwide</p>
             </div>
-            <div class="grid lg:grid-cols-2 gap-16">
-                <div class="fade-in">
-                    <div class="space-y-8">
-                        <div class="flex items-start space-x-4">
-                            <div class="w-6 h-6 flex items-center justify-center mt-1">
-                                <i class="ri-mail-line text-primary text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-gray-900 mb-1">Email</h3>
-                                <p class="text-gray-600">info@kunjal.com</p>
-                            </div>
+            <!-- Top Slider (Left to Right) -->
+            <div class="relative overflow-hidden mb-8">
+                <div class="flex animate-slide-left" id="clients-slider-top">
+                    <!-- Client Items -->
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/gc_polyols_logo.avif" alt="Client 1 Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
                         </div>
-                        <div class="flex items-start space-x-4">
-                            <div class="w-6 h-6 flex items-center justify-center mt-1">
-                                <i class="ri-phone-line text-primary text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-gray-900 mb-1">Phone</h3>
-                                <p class="text-gray-600">033-2288-1217</p>
-                            </div>
+                    </div>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/Kempar Logo.avif" alt="Client 2 Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
                         </div>
-                        <div class="flex items-start space-x-4">
-                            <div class="w-6 h-6 flex items-center justify-center mt-1">
-                                <i class="ri-map-pin-line text-primary text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-gray-900 mb-1">Kolkata Office</h3>
-                                <p class="text-gray-600">15D, Everest House, 46C, Jawaharlal Nehru Rd, Park Street,
-                                    Kolkata, WB 700071</p>
-                            </div>
+                    </div>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/LG Chem.avif" alt="Client 3 Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
                         </div>
-                        <div class="flex items-start space-x-4">
-                            <div class="w-6 h-6 flex items-center justify-center mt-1">
-                                <i class="ri-map-pin-line text-primary text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-gray-900 mb-1">Mumbai Office</h3>
-                                <p class="text-gray-600">609, Dilkap Chambers, Veera Desai Rd, Andheri West, Mumbai, MH
-                                    400053</p>
-                            </div>
+                    </div>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/Petron.avif" alt="Client 4 Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
+                        </div>
+                    </div>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/PTT.avif" alt="Client 5 Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
+                        </div>
+                    </div>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/Siam_Cement_Group_Logo_svg.avif" alt="Client 6 Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
+                        </div>
+                    </div>
+                    <!-- Duplicate Client Items for Seamless Looping -->
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/gc_polyols_logo.avif" alt="Client 1 Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
+                        </div>
+                    </div>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/Kempar Logo.avif" alt="Client 2 Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
+                        </div>
+                    </div>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/LG Chem.avif" alt="Client 3 Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
+                        </div>
+                    </div>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/Petron.avif" alt="Client 4 Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
+                        </div>
+                    </div>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/PTT.avif" alt="Client 5 Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
+                        </div>
+                    </div>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/Siam_Cement_Group_Logo_svg.avif" alt="Client 6 Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
                         </div>
                     </div>
                 </div>
-                <div class="fade-in">
-                    <form class="space-y-6">
-                        <div>
-                            <input type="text" name="name" placeholder="Your Name"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none">
+            </div>
+            <!-- Bottom Slider (Right to Left) -->
+            <div class="relative overflow-hidden">
+                <div class="flex animate-slide-right" id="clients-slider-bottom">
+                    <!-- Client Items -->
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/gc_polyols_logo.avif" alt="Client 7 Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
                         </div>
-                        <div>
-                            <input type="email" name="email" placeholder="Your Email"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none">
+                    </div>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/Kempar Logo.avif" alt="Client 8 Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
                         </div>
-                        <div>
-                            <input type="text" name="subject" placeholder="Subject"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none">
+                    </div>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/LG Chem.avif" alt="Client 9 Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
                         </div>
-                        <div>
-                            <textarea rows="5" name="message" placeholder="Your Message"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none resize-none"></textarea>
+                    </div>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/Petron.avif" alt="Client 10 Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
                         </div>
-                        <button type="submit"
-                            class="w-full bg-primary hover:bg-blue-700 text-white py-3 !rounded-button font-semibold transition-colors whitespace-nowrap">
-                            Send Message
-                        </button>
-                    </form>
+                    </div>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/PTT.avif" alt="Client 11 Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
+                        </div>
+                    </div>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/Siam_Cement_Group_Logo_svg.avif" alt="Client 12 Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
+                        </div>
+                    </div>
+                    <!-- Duplicate Client Items for Seamless Looping -->
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/gc_polyols_logo.avif" alt="Client 7 Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
+                        </div>
+                    </div>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/Kempar Logo.avif" alt="Client 8 Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
+                        </div>
+                    </div>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/Petron.avif" alt="Client 9 Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
+                        </div>
+                    </div>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/PTT.avif" alt="Client 10 Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
+                        </div>
+                    </div>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/Siam_Cement_Group_Logo_svg.avif" alt="Client 11 Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
+                        </div>
+                    </div>
+                    <div class="flex-none w-1/2 sm:w-1/3 lg:w-1/6 px-4">
+                        <div class="rounded-lg flex items-center justify-center min-h-28 sm:min-h-32 md:min-h-40 lg:min-h-48">
+                            <img src="./Partner/gc_polyols_logo.avif" alt="Client 12 Logo" class="w-20 sm:w-24 md:w-32 lg:w-40 h-20 sm:h-24 md:h-32 lg:h-40 object-contain">
+                        </div>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
     <footer class="bg-gray-900 text-white py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid md:grid-cols-3 gap-8 mb-8">
                 <div>
-                     <img src="./Image/logo.png" alt="Kunjal Group Logo" class="h-8 w-8 mr-2">
+                    <img src="./Image/logo.png" alt="Kunjal Group Logo" class="h-12 w-10 mr-2">
                     <p class="text-gray-400">Delivering petrochemical solutions across borders since 1983.</p>
                 </div>
                 <div>
@@ -320,8 +657,10 @@
                     <div class="space-y-2">
                         <a href="./index.html" class="block text-gray-400 hover:text-white transition-colors">Home</a>
                         <a href="./about.html" class="block text-gray-400 hover:text-white transition-colors">About</a>
-                        <a href="./product.html" class="block text-gray-400 hover:text-white transition-colors">Products</a>
-                        <a href="./contact.html" class="block text-gray-400 hover:text-white transition-colors">Contact</a>
+                        <a href="./product.html"
+                            class="block text-gray-400 hover:text-white transition-colors">Products</a>
+                        <a href="./contact.html"
+                            class="block text-gray-400 hover:text-white transition-colors">Contact</a>
                     </div>
                 </div>
                 <div>
@@ -425,6 +764,38 @@
                         });
                     }
                 });
+            });
+        });
+    </script>
+    <script id="partners-slider-control">
+        document.addEventListener('DOMContentLoaded', function () {
+            const slider = document.getElementById('partners-slider');
+            slider.addEventListener('animationiteration', () => {
+                slider.style.transition = 'none';
+                slider.style.transform = 'translateX(0)';
+                setTimeout(() => {
+                    slider.style.transition = 'transform 0.3s ease';
+                }, 0);
+            });
+        });
+    </script>
+    <script id="clients-slider-control">
+        document.addEventListener('DOMContentLoaded', function () {
+            const sliderTop = document.getElementById('clients-slider-top');
+            const sliderBottom = document.getElementById('clients-slider-bottom');
+            sliderTop.addEventListener('animationiteration', () => {
+                sliderTop.style.transition = 'none';
+                sliderTop.style.transform = 'translateX(-50%)';
+                setTimeout(() => {
+                    sliderTop.style.transition = 'transform 0.3s ease';
+                }, 0);
+            });
+            sliderBottom.addEventListener('animationiteration', () => {
+                sliderBottom.style.transition = 'none';
+                sliderBottom.style.transform = 'translateX(0)';
+                setTimeout(() => {
+                    sliderBottom.style.transition = 'transform 0.3s ease';
+                }, 0);
             });
         });
     </script>
