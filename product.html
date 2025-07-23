@@ -14,11 +14,428 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
     <style>
         :where([class^="ri-"])::before {
-            content: "\f3c2";
+            content: normal;
         }
 
         body {
             font-family: 'Inter', sans-serif;
+        }
+
+        .nav-container {
+            position: relative;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-item {
+            position: relative;
+            padding: 12px 24px;
+            margin: 0 8px;
+            border-radius: 12px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            cursor: pointer;
+            font-weight: 500;
+            color: #374151;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.4), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .nav-item:hover::before {
+            left: 100%;
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #1e40af, #3b82f6);
+            transform: translateX(-50%);
+            transition: width 0.4s ease;
+        }
+
+        .nav-item:hover::after {
+            width: 80%;
+        }
+
+        .nav-item:hover {
+            color: #1e40af;
+            transform: translateY(-2px);
+            background: rgba(59, 130, 246, 0.05);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            transform: scale(1);
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container:hover {
+            transform: scale(1.05);
+        }
+
+        /* Fixed Mobile Menu Button */
+        .mobile-menu-btn {
+            position: relative;
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .mobile-menu-btn:hover {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.5);
+            transform: scale(1.05);
+        }
+
+        .mobile-menu-btn:active {
+            transform: scale(0.95);
+        }
+
+        .mobile-menu-btn.active {
+            background: rgba(30, 64, 175, 0.15);
+            border-color: rgba(30, 64, 175, 0.5);
+        }
+
+        .mobile-menu-btn .hamburger {
+            position: relative;
+            width: 22px;
+            height: 2px;
+            background: #1e40af;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .mobile-menu-btn .hamburger::before,
+        .mobile-menu-btn .hamburger::after {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 2px;
+            background: #1e40af;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .mobile-menu-btn .hamburger::before {
+            top: -7px;
+        }
+
+        .mobile-menu-btn .hamburger::after {
+            top: 7px;
+        }
+
+        .mobile-menu-btn.active .hamburger {
+            background: transparent;
+        }
+
+        .mobile-menu-btn.active .hamburger::before {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .mobile-menu-btn.active .hamburger::after {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 68px;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transform: translateY(-100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 999;
+            max-height: calc(100vh - 68px);
+            overflow-y: auto;
+        }
+
+        .mobile-menu.open {
+            transform: translateY(0);
+        }
+
+        /* Mobile menu nav items - remove all the desktop styling */
+        .mobile-menu .nav-item {
+            display: block;
+            margin: 0;
+            padding: 16px 20px;
+            border-radius: 0;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+            font-size: 16px;
+            font-weight: 500;
+            color: #374151;
+            text-decoration: none;
+            background: none;
+            box-shadow: none;
+            transform: none;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu .nav-item:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-menu .nav-item:hover {
+            background: rgba(59, 130, 246, 0.05);
+            color: #1e40af;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Remove pseudo-elements for mobile menu items */
+        .mobile-menu .nav-item::before,
+        .mobile-menu .nav-item::after {
+            display: none;
+        }
+
+        .product-card {
+            position: relative;
+            background: linear-gradient(145deg, #ffffff, #f8fafc);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #1e40af, #3b82f6, #8b5cf6);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.6s ease;
+        }
+
+        .product-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .product-header {
+            position: relative;
+            padding: 24px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(139, 92, 246, 0.05));
+            border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+        }
+
+        .product-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .product-title::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #1e40af, #3b82f6);
+            transition: width 0.4s ease;
+        }
+
+        .product-card:hover .product-title::after {
+            width: 100%;
+        }
+
+        .availability-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(34, 197, 94, 0.1);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .availability-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.2); }
+        }
+
+        .product-content {
+            padding: 24px;
+        }
+
+        .product-description {
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .product-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .product-list li {
+            position: relative;
+            padding: 4px 0 4px 20px;
+            color: #4b5563;
+            transition: all 0.3s ease;
+        }
+
+        .product-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #3b82f6;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover .product-list li::before {
+            transform: translateX(4px);
+            color: #1e40af;
+        }
+
+        .product-list li:hover {
+            color: #1f2937;
+            transform: translateX(4px);
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .download-btn {
+            flex: 1;
+            min-width: 80px;
+            padding: 10px 16px;
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            color: #374151;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .download-btn:hover::before {
+            left: 100%;
+        }
+
+        .download-btn:hover {
+            background: linear-gradient(135deg, #3b82f6, #1e40af);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+            border-color: transparent;
+        }
+
+        .inquire-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .inquire-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.6s ease;
+        }
+
+        .inquire-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .inquire-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 30px rgba(30, 64, 175, 0.4);
+            background: linear-gradient(135deg, #1d4ed8, #2563eb);
         }
 
         .filter-dropdown {
@@ -31,30 +448,32 @@
             max-height: 400px;
         }
 
-        .product-card {
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            transform: perspective(1000px) rotateY(0deg);
+        .category-tab {
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            border-radius: 16px;
         }
 
-        .product-card:hover {
-            transform: perspective(1000px) translateY(-8px) rotateY(5deg) scale(1.03);
-            box-shadow: 0 25px 40px -10px rgba(0, 0, 0, 0.2), 0 15px 15px -10px rgba(0, 0, 0, 0.1);
+        .category-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
         }
 
-        .availability-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            animation: pulse 2s infinite ease-in-out;
+        .category-tab:hover::before {
+            left: 100%;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.5); opacity: 0.7; }
-            100% { transform: scale(1); opacity: 1; }
+        .category-tab.active {
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
         }
 
         .fade-in {
@@ -66,34 +485,6 @@
         .fade-in.visible {
             opacity: 1;
             transform: translateY(0) scale(1);
-        }
-
-        .category-tab {
-            transition: all 0.3s ease;
-        }
-
-        .category-tab.active {
-            background-color: #1e40af;
-            color: white;
-            transform: scale(1.05);
-        }
-
-        .search-container {
-            position: relative;
-        }
-
-        .search-results {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-top: none;
-            border-radius: 0 0 8px 8px;
-            max-height: 300px;
-            overflow-y: auto;
-            z-index: 10;
         }
 
         .custom-checkbox {
@@ -130,365 +521,290 @@
             100% { transform: translate(-50%, -50%) scale(1); }
         }
 
-        .price-range {
-            appearance: none;
-            width: 100%;
-            height: 6px;
-            border-radius: 3px;
-            background: #e5e7eb;
-            outline: none;
+        .product-card:nth-child(1) { animation-delay: 0.1s; }
+        .product-card:nth-child(2) { animation-delay: 0.2s; }
+        .product-card:nth-child(3) { animation-delay: 0.3s; }
+        .product-card:nth-child(4) { animation-delay: 0.4s; }
+        .product-card:nth-child(5) { animation-delay: 0.5s; }
+        .product-card:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
         }
 
-        .price-range::-webkit-slider-thumb {
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #1e40af;
-            cursor: pointer;
-            box-shadow: 0 0 8px rgba(30, 64, 175, 0.5);
-            transition: transform 0.3s ease;
+        .product-card:hover {
+            animation: float 2s ease-in-out infinite;
         }
 
-        .price-range::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
+        /* Enhanced Responsive Styles */
+        @media (max-width: 1024px) {
+            .product-card:hover {
+                transform: translateY(-8px) scale(1.01);
+            }
+            
+            #products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
         }
 
-        .price-range::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #1e40af;
-            cursor: pointer;
-            border: none;
-            box-shadow: 0 0 8px rgba(30, 64, 175, 0.5);
-            transition: transform 0.3s ease;
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 16px;
+            }
+
+            /* Show mobile menu button only on mobile */
+            .mobile-menu-btn {
+                display: flex !important;
+            }
+
+            /* Hide desktop navigation on mobile */
+            .desktop-nav {
+                display: none !important;
+            }
+
+            .product-card {
+                border-radius: 16px;
+            }
+
+            .product-card:hover {
+                transform: translateY(-6px) scale(1.01);
+                animation: none;
+            }
+
+            .product-header {
+                padding: 16px;
+            }
+
+            .product-title {
+                font-size: 1.125rem;
+            }
+
+            .product-content {
+                padding: 16px;
+            }
+
+            .product-description {
+                font-size: 0.875rem;
+            }
+
+            .product-list {
+                font-size: 0.875rem;
+            }
+
+            .product-actions {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .download-btn, .inquire-btn {
+                width: 100%;
+                padding: 12px;
+                font-size: 0.875rem;
+            }
+
+            .category-tab {
+                padding: 10px 14px;
+                font-size: 0.875rem;
+            }
+
+            #products-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .mobile-menu-btn {
+                width: 40px;
+                height: 40px;
+            }
+
+            .mobile-menu-btn .hamburger {
+                width: 20px;
+            }
+
+            .mobile-menu-btn .hamburger::before,
+            .mobile-menu-btn .hamburger::after {
+                width: 20px;
+            }
         }
 
-        .price-range::-moz-range-thumb:hover {
-            transform: scale(1.2);
+        @media (max-width: 640px) {
+            .nav-container {
+                padding: 0 12px;
+            }
+
+            .logo-container img {
+                height: 40px;
+                width: 32px;
+            }
+
+            .category-tab {
+                flex: 1;
+                text-align: center;
+                padding: 8px 10px;
+                font-size: 0.75rem;
+                min-width: 0;
+            }
+
+            .product-header {
+                padding: 12px;
+            }
+
+            .product-content {
+                padding: 12px;
+            }
+
+            .product-title {
+                font-size: 1rem;
+            }
+
+            .product-description {
+                font-size: 0.8rem;
+                line-height: 1.5;
+            }
+
+            .product-list {
+                font-size: 0.8rem;
+            }
+
+            .product-list li {
+                padding: 3px 0 3px 16px;
+            }
+
+            .availability-badge {
+                padding: 4px 8px;
+                font-size: 0.7rem;
+            }
+
+            .download-btn, .inquire-btn {
+                padding: 10px;
+                font-size: 0.8rem;
+            }
+
+            .mobile-menu-btn {
+                width: 36px;
+                height: 36px;
+            }
+
+            .mobile-menu-btn .hamburger {
+                width: 18px;
+            }
+
+            .mobile-menu-btn .hamburger::before,
+            .mobile-menu-btn .hamburger::after {
+                width: 18px;
+            }
         }
 
-        .product-image {
-            position: relative;
-            overflow: hidden;
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 0 8px;
+            }
+
+            .category-tab {
+                padding: 6px 8px;
+                font-size: 0.7rem;
+            }
+
+            .product-card {
+                border-radius: 12px;
+            }
+
+            .product-header {
+                padding: 10px;
+            }
+
+            .product-content {
+                padding: 10px;
+            }
+
+            .product-title {
+                font-size: 0.95rem;
+                margin-bottom: 6px;
+            }
+
+            .product-description {
+                font-size: 0.75rem;
+                margin-bottom: 16px;
+            }
+
+            .product-list {
+                font-size: 0.75rem;
+            }
+
+            .product-actions {
+                gap: 6px;
+                margin-top: 16px;
+            }
+
+            .download-btn, .inquire-btn {
+                padding: 8px;
+                font-size: 0.75rem;
+            }
+
+            .availability-badge {
+                padding: 3px 6px;
+                font-size: 0.65rem;
+            }
+
+            .availability-dot {
+                width: 6px;
+                height: 6px;
+            }
         }
 
-        .product-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        /* Desktop navigation should be hidden on mobile */
+        @media (max-width: 767px) {
+            .desktop-nav {
+                display: none !important;
+            }
+            
+            .mobile-menu-btn {
+                display: flex !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+            }
         }
 
-        .product-image:hover .product-overlay {
-            opacity: 1;
-            transform: scale(1);
-        }
+        /* Mobile menu button should be hidden on desktop */
+        @media (min-width: 768px) {
+            .mobile-menu-btn {
+                display: none !important;
+            }
 
-        .product-overlay a {
-            background-color: #1e40af;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            margin: 0 10px;
-            transition: all 0.3s ease;
-            transform: translateY(20px);
-            opacity: 0;
-        }
-
-        .product-image:hover .product-overlay a {
-            transform: translateY(0);
-            opacity: 1;
-            transition-delay: 0.1s;
-        }
-
-        .product-overlay a:hover {
-            background-color: #3b82f6;
-            transform: scale(1.1);
-        }
-
-        .product-overlay a:nth-child(1) {
-            transition-delay: 0.1s;
-        }
-
-        .product-overlay a:nth-child(2) {
-            transition-delay: 0.2s;
-        }
-
-        .inquire-btn {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .inquire-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.6s ease, height 0.6s ease;
-        }
-
-        .inquire-btn:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        @keyframes shine {
-            0% { background-position: -200%; }
-            100% { background-position: 200%; }
-        }
-
-        .product-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.2),
-                transparent
-            );
-            transition: left 0.7s ease;
-        }
-
-        .product-card:hover::before {
-            left: 100%;
-        }
-        .nav-button {
-            border: none;
-            width: 140px;
-            height: 50px;
-            color: #fff;
-            z-index: 1;
-            display: flex;
-            background: #000;
-            position: relative;
-            cursor: pointer;
-        }
-
-        .nav-button p {
-            margin: 0 auto;
-            align-self: center;
-            font-size: 17px;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .nav-button::after {
-            position: absolute;
-            content: "";
-            width: 100%;
-            z-index: -1;
-            height: 10%;
-            bottom: 0;
-            clip-path: polygon(0% 74%,
-                    4% 75%,
-                    8% 76%,
-                    11% 77%,
-                    15% 78%,
-                    20% 78%,
-                    25% 77%,
-                    32% 77%,
-                    37% 75%,
-                    40% 74%,
-                    43% 74%,
-                    46% 73%,
-                    52% 72%,
-                    57% 72%,
-                    65% 74%,
-                    66% 75%,
-                    71% 78%,
-                    75% 82%,
-                    81% 86%,
-                    83% 88%,
-                    88% 91%,
-                    90% 94%,
-                    94% 96%,
-                    98% 98%,
-                    100% 100%,
-                    82% 100%,
-                    0 100%);
-            background: #8792eb;
-            transition: 0.2s ease;
-        }
-
-        .nav-button::before {
-            position: absolute;
-            content: "";
-            transform: rotate(180deg);
-            width: 100%;
-            height: 10%;
-            transition: 0.2s ease;
-            z-index: -1;
-            clip-path: polygon(0% 74%,
-                    4% 75%,
-                    8% 76%,
-                    11% 77%,
-                    15% 78%,
-                    20% 78%,
-                    25% 77%,
-                    32% 77%,
-                    37% 75%,
-                    40% 74%,
-                    43% 74%,
-                    46% 73%,
-                    52% 72%,
-                    57% 72%,
-                    65% 74%,
-                    66% 75%,
-                    71% 78%,
-                    75% 82%,
-                    81% 86%,
-                    83% 88%,
-                    88% 91%,
-                    90% 94%,
-                    94% 96%,
-                    98% 98%,
-                    100% 100%,
-                    82% 100%,
-                    0 100%);
-            background: #8792eb;
-        }
-
-        .nav-button:hover::after {
-            clip-path: polygon(0 30%, 9% 34%, 7% 39%, 11% 43%,
-                    13% 33%,
-                    17% 30%,
-                    24% 34%,
-                    25% 35%,
-                    30% 31%,
-                    30% 38%,
-                    39% 33%,
-                    35% 43%,
-                    43% 45%,
-                    55% 46%,
-                    65% 74%,
-                    67% 66%,
-                    81% 57%,
-                    75% 82%,
-                    81% 86%,
-                    83% 88%,
-                    88% 91%,
-                    90% 94%,
-                    94% 96%,
-                    98% 98%,
-                    100% 100%,
-                    82% 100%,
-                    0 100%);
-            height: 80%;
-        }
-
-        .nav-button:hover::before {
-            clip-path: polygon(0 30%,
-                    9% 34%,
-                    7% 39%,
-                    11% 43%,
-                    13% 33%,
-                    17% 30%,
-                    24% 34%,
-                    25% 35%,
-                    30% 31%,
-                    30% 38%,
-                    39% 33%,
-                    35% 43%,
-                    43% 45%,
-                    55% 46%,
-                    65% 74%,
-                    67% 66%,
-                    81% 57%,
-                    75% 82%,
-                    81% 86%,
-                    83% 88%,
-                    88% 91%,
-                    90% 94%,
-                    94% 96%,
-                    98% 98%,
-                    100% 100%,
-                    82% 100%,
-                    0 100%);
-            height: 80%;
+            .mobile-menu {
+                display: none !important;
+            }
         }
     </style>
 </head>
 
 <body class="bg-gray-50">
 
-    <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200">
+    <nav class="fixed top-0 w-full z-50 nav-container">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
+                <div class="logo-container">
                     <img src="./Image/logo.png" alt="Kunjal Group Logo" class="h-12 w-10 mr-2">
-                    <!-- <h1 class="text-2xl font-['Pacifico'] text-primary">Group</h1> -->
                 </div>
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="./index.html">
-                        <button class="nav-button">
-                            <p>Home</p>
-                        </button>
-                    </a>
-                    <a href="./about.html">
-                        <button class="nav-button">
-                            <p>About</p>
-                        </button>
-                    </a>
-                    <a href="./product.html">
-                        <button class="nav-button">
-                            <p>Products</p>
-                        </button>
-                    </a>
-                    <a href="./contact.html">
-                        <button class="nav-button">
-                            <p>Contact</p>
-                        </button>
-                    </a>
+                <div class="hidden md:flex items-center space-x-2 desktop-nav">
+                    <a href="./index.html" class="nav-item">Home</a>
+                    <a href="./about.html" class="nav-item">About</a>
+                    <a href="./product.html" class="nav-item">Products</a>
+                    <a href="./contact.html" class="nav-item">Contact</a>
                 </div>
-                <button class="md:hidden w-8 h-8 flex items-center justify-center" id="mobile-menu-btn">
-                    <i class="ri-menu-line text-xl"></i>
+                <button class="md:hidden mobile-menu-btn" id="mobile-menu-btn">
+                    <div class="hamburger"></div>
                 </button>
             </div>
         </div>
-        <div class="md:hidden hidden bg-white border-t border-gray-200" id="mobile-menu">
+        <div class="md:hidden mobile-menu" id="mobile-menu">
             <div class="px-4 py-2 space-y-1">
-                <a href="./index.html" class="block px-3 py-2">
-                    <button class="nav-button">
-                        <p>Home</p>
-                    </button>
-                </a>
-                <a href="./about.html" class="block px-3 py-2">
-                    <button class="nav-button">
-                        <p>About</p>
-                    </button>
-                </a>
-                <a href="./product.html" class="block px-3 py-2">
-                    <button class="nav-button">
-                        <p>Products</p>
-                    </button>
-                </a>
-                <a href="./contact.html" class="block px-3 py-2">
-                    <button class="nav-button">
-                        <p>Contact</p>
-                    </button>
-                </a>
+                <a href="./index.html" class="nav-item">Home</a>
+                <a href="./about.html" class="nav-item">About</a>
+                <a href="./product.html" class="nav-item">Products</a>
+                <a href="./contact.html" class="nav-item">Contact</a>
             </div>
         </div>
     </nav>
@@ -496,578 +812,319 @@
     <div class="pt-16 min-h-screen">
         <div class="w-full px-4 sm:px-6 lg:px-8 py-8">
             <div class="mb-8">
-                <h1 class="text-4xl font-bold text-gray-900 mb-4">Product catalogue</h1>
-                <p class="text-lg text-gray-600">Explore our Products</ all products></p>
-            </div>
-            <div id="filter-panel"
-                class="bg-white rounded-lg border border-gray-200 mb-8 overflow-hidden filter-dropdown">
-                <div class="p-6">
-                    <div class="grid md:grid-cols-4 gap-6">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-3">Categories</label>
-                            <div class="space-y-2">
-                                <label class="flex items-center space-x-3">
-                                    <input type="checkbox" class="custom-checkbox" value="petrochemicals" checked>
-                                    <span class="text-sm text-gray-700">Petrochemicals</span>
-                                </label>
-                                <label class="flex items-center space-x-3">
-                                    <input type="checkbox" class="custom-checkbox" value="solvents" checked>
-                                    <span class="text-sm text-gray-700">Solvents</span>
-                                </label>
-                                <label class="flex items-center space-x-3">
-                                    <input type="checkbox" class="custom-checkbox" value="pharma" checked>
-                                    <span class="text-sm text-gray-700">Pharma Raw Materials</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-3">Price Range (USD/MT)</label>
-                            <div class="space-y-3">
-                                <input type="range" class="price-range" min="500" max="5000" value="2750"
-                                    id="price-range">
-                                <div class="flex justify-between text-xs text-gray-500">
-                                    <span>$500</span>
-                                    <span id="price-value">$2,750</span>
-                                    <span>$5,000</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-3">Availability</label>
-                            <div class="space-y-2">
-                                <label class="flex items-center space-x-3">
-                                    <input type="checkbox" class="custom-checkbox" value="in-stock" checked>
-                                    <span class="text-sm text-gray-700">In Stock</span>
-                                </label>
-                                <label class="flex items-center space-x-3">
-                                    <input type="checkbox" class="custom-checkbox" value="limited">
-                                    <span class="text-sm text-gray-700">Limited Stock</span>
-                                </label>
-                                <label class="flex items-center space-x-3">
-                                    <input type="checkbox" class="custom-checkbox" value="pre-order">
-                                    <span class="text-sm text-gray-700">Pre-order</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-3">Sort By</label>
-                            <select id="sort-select"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-sm pr-8">
-                                <option value="name">Product Name (A-Z)</option>
-                                <option value="price-low">Price (Low to High)</option>
-                                <option value="price-high">Price (High to Low)</option>
-                                <option value="availability">Availability</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">Product Catalogue</h1>
+                <p class="text-lg text-gray-600">Explore our comprehensive range of chemical products</p>
             </div>
 
             <div class="flex flex-wrap gap-2 mb-8">
-                <button
-                    class="category-tab active px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap"
-                    data-category="all">
+                <button class="category-tab active px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap" data-category="all">
                     All Products
                 </button>
-                <button
-                    class="category-tab px-4 py-2 !rounded-button text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors whitespace-nowrap"
-                    data-category="catagory-1">
-                    Categories-1
+                <button class="category-tab px-4 py-2 !rounded-button text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors whitespace-nowrap" data-category="aromatics">
+                    Aromatics
                 </button>
-                <button
-                    class="category-tab px-4 py-2 !rounded-button text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors whitespace-nowrap"
-                    data-category="catagory-2">
-                    Categories-2
+                <button class="category-tab px-4 py-2 !rounded-button text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors whitespace-nowrap" data-category="solvents">
+                    Solvents
                 </button>
-                <button
-                    class="category-tab px-4 py-2 !rounded-button text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors whitespace-nowrap"
-                    data-category="catagory-3">
-                    Categories-3
+                <button class="category-tab px-4 py-2 !rounded-button text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors whitespace-nowrap" data-category="chemicals">
+                    Specialty Chemicals
                 </button>
             </div>
 
-            <div id="products-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-                <div class="product-card bg-white rounded-lg border border-gray-200 overflow-hidden fade-in"
-                    data-category="catagory-1" data-price="1200" data-availability="in-stock">
-                    <div class="product-image h-48">
-                        <div class="h-full bg-cover bg-center" style="background-image: url('./Image/product-1.jpg')"></div>
-                        <div class="product-overlay">
-                            <a href="./Allpdf/COA -Melamine.pdf" download>COA</a>
-                            <a href="./Allpdf/COA -Melamine.pdf" download>MSDS</a>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-start justify-between mb-3">
-                            <h3 class="text-lg font-semibold text-gray-900">Aromatics</h3>
-                            <div class="flex items-center space-x-1">
-                                <div class="availability-dot bg-green-500"></div>
+            <div id="products-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                <!-- Product Card 1 -->
+                <div class="product-card fade-in" data-category="aromatics" data-availability="in-stock">
+                    <div class="product-header">
+                        <div class="flex items-start justify-between">
+                            <h3 class="product-title">Aromatics</h3>
+                            <div class="availability-badge">
+                                <div class="availability-dot"></div>
                                 <span class="text-xs text-green-600 font-medium">In Stock</span>
                             </div>
                         </div>
-                        <div class="space-y-2 mb-4">
-                            <p class="text-sm text-gray-600">
-                                <ul class="list-disc pl-5">
-                                    <li>Toluene</li>
-                                    <li>Mixed Xylene (Solvent & Isomer Grade)</li>
-                                    <li>Solvent C9</li>
-                                    <li>Ortho-Xylene</li>
-                                    <li>White Spirit (MTO)</li>
-                                    <li>Phenol</li>
-                                    <li>Acetone</li>
-                                    <li>C10</li>
-                                    <li>Styrene Monomer (SM)</li>
-                                    <li>Heavy Aromatics</li>
-                                    <li>Pyrolysis Gasoline (Pygas)</li>
-                                </ul>
-                            </p>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <a href="./contact.html">
-                                <button
-                                    class="inquire-btn bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
-                                    Inquire Now
-                                </button>
-                            </a>
+                    </div>
+                    <div class="product-content">
+                        <p class="product-description">
+                            High-quality aromatic compounds for various industrial applications including petrochemical processing, solvent manufacturing, and chemical synthesis.
+                        </p>
+                        <ul class="product-list">
+                            <li>Toluene - Industrial grade solvent</li>
+                            <li>Mixed Xylene (Solvent & Isomer Grade)</li>
+                            <li>Solvent C9 - Specialty aromatic solvent</li>
+                            <li>Ortho-Xylene - High purity grade</li>
+                            <li>White Spirit (MTO) - Paint thinner</li>
+                            <li>Phenol - Chemical intermediate</li>
+                            <li>Acetone - Multi-purpose solvent</li>
+                            <li>Styrene Monomer (SM) - Polymer grade</li>
+                        </ul>
+                        <div class="product-actions">
+                            <a href="./Allpdf/COA -Melamine.pdf" download class="download-btn">COA</a>
+                            <a href="./Allpdf/COA -Melamine.pdf" download class="download-btn">MSDS</a>
+                            <a href="./contact.html" class="inquire-btn">Inquire Now</a>
                         </div>
                     </div>
                 </div>
-                <div class="product-card bg-white rounded-lg border border-gray-200 overflow-hidden fade-in"
-                    data-category="catagory-2" data-price="1200" data-availability="in-stock">
-                    <div class="product-image h-48">
-                        <div class="h-full bg-cover bg-center" style="background-image: url('./Image/product-1.jpg')"></div>
-                        <div class="product-overlay">
-                            <a href="./documents/coa.pdf" download>COA</a>
-                            <a href="./documents/msds.pdf" download>MSDS</a>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-start justify-between mb-3">
-                            <h3 class="text-lg font-semibold text-gray-900">Aromatics</h3>
-                            <div class="flex items-center space-x-1">
-                                <div class="availability-dot bg-green-500"></div>
+
+                <!-- Product Card 2 -->
+                <div class="product-card fade-in" data-category="solvents" data-availability="in-stock">
+                    <div class="product-header">
+                        <div class="flex items-start justify-between">
+                            <h3 class="product-title">Industrial Solvents</h3>
+                            <div class="availability-badge">
+                                <div class="availability-dot"></div>
                                 <span class="text-xs text-green-600 font-medium">In Stock</span>
                             </div>
                         </div>
-                        <div class="space-y-2 mb-4">
-                            <p class="text-sm text-gray-600">
-                                <ul class="list-disc pl-5">
-                                    <li>Toluene</li>
-                                    <li>Mixed Xylene (Solvent & Isomer Grade)</li>
-                                    <li>Solvent C9</li>
-                                    <li>Ortho-Xylene</li>
-                                    <li>White Spirit (MTO)</li>
-                                    <li>Phenol</li>
-                                    <li>Acetone</li>
-                                    <li>C10</li>
-                                    <li>Styrene Monomer (SM)</li>
-                                    <li>Heavy Aromatics</li>
-                                    <li>Pyrolysis Gasoline (Pygas)</li>
-                                </ul>
-                            </p>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <a href="./contact.html">
-                                <button
-                                    class="inquire-btn bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
-                                    Inquire Now
-                                </button>
-                            </a>
+                    </div>
+                    <div class="product-content">
+                        <p class="product-description">
+                            Premium industrial solvents for manufacturing, cleaning, and processing applications across multiple industries.
+                        </p>
+                        <ul class="product-list">
+                            <li>Methanol - Fuel grade & chemical grade</li>
+                            <li>Ethanol - Denatured industrial grade</li>
+                            <li>Isopropyl Alcohol - 99% purity</li>
+                            <li>Butanol - N-Butanol industrial grade</li>
+                            <li>Ethyl Acetate - Solvent grade</li>
+                            <li>Methyl Acetate - High purity</li>
+                            <li>Dichloromethane - Technical grade</li>
+                            <li>Chloroform - Stabilized grade</li>
+                        </ul>
+                        <div class="product-actions">
+                            <a href="./documents/coa.pdf" download class="download-btn">COA</a>
+                            <a href="./documents/msds.pdf" download class="download-btn">MSDS</a>
+                            <a href="./contact.html" class="inquire-btn">Inquire Now</a>
                         </div>
                     </div>
                 </div>
-                <div class="product-card bg-white rounded-lg border border-gray-200 overflow-hidden fade-in"
-                    data-category="catagory-3" data-price="1200" data-availability="in-stock">
-                    <div class="product-image h-48">
-                        <div class="h-full bg-cover bg-center" style="background-image: url('./Image/product-1.jpg')"></div>
-                        <div class="product-overlay">
-                            <a href="./documents/coa.pdf" download>COA</a>
-                            <a href="./documents/msds.pdf" download>MSDS</a>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-start justify-between mb-3">
-                            <h3 class="text-lg font-semibold text-gray-900">Aromatics</h3>
-                            <div class="flex items-center space-x-1">
-                                <div class="availability-dot bg-green-500"></div>
+
+                <!-- Product Card 3 -->
+                <div class="product-card fade-in" data-category="chemicals" data-availability="in-stock">
+                    <div class="product-header">
+                        <div class="flex items-start justify-between">
+                            <h3 class="product-title">Specialty Chemicals</h3>
+                            <div class="availability-badge">
+                                <div class="availability-dot"></div>
                                 <span class="text-xs text-green-600 font-medium">In Stock</span>
                             </div>
                         </div>
-                        <div class="space-y-2 mb-4">
-                            <p class="text-sm text-gray-600">
-                                <ul class="list-disc pl-5">
-                                    <li>Toluene</li>
-                                    <li>Mixed Xylene (Solvent & Isomer Grade)</li>
-                                    <li>Solvent C9</li>
-                                    <li>Ortho-Xylene</li>
-                                    <li>White Spirit (MTO)</li>
-                                    <li>Phenol</li>
-                                    <li>Acetone</li>
-                                    <li>C10</li>
-                                    <li>Styrene Monomer (SM)</li>
-                                    <li>Heavy Aromatics</li>
-                                    <li>Pyrolysis Gasoline (Pygas)</li>
-                                </ul>
-                            </p>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <a href="./contact.html">
-                                <button
-                                    class="inquire-btn bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
-                                    Inquire Now
-                                </button>
-                            </a>
+                    </div>
+                    <div class="product-content">
+                        <p class="product-description">
+                            Advanced specialty chemicals for pharmaceutical, agricultural, and manufacturing industries with stringent quality standards.
+                        </p>
+                        <ul class="product-list">
+                            <li>Acetic Acid - Glacial grade</li>
+                            <li>Formic Acid - 85% concentration</li>
+                            <li>Hydrogen Peroxide - Various grades</li>
+                            <li>Sulfuric Acid - Technical grade</li>
+                            <li>Nitric Acid - Concentrated</li>
+                            <li>Sodium Hydroxide - Caustic soda</li>
+                            <li>Potassium Hydroxide - Pellets</li>
+                            <li>Ammonia - Anhydrous grade</li>
+                        </ul>
+                        <div class="product-actions">
+                            <a href="./documents/coa.pdf" download class="download-btn">COA</a>
+                            <a href="./documents/msds.pdf" download class="download-btn">MSDS</a>
+                            <a href="./contact.html" class="inquire-btn">Inquire Now</a>
                         </div>
                     </div>
                 </div>
-                <div class="product-card bg-white rounded-lg border border-gray-200 overflow-hidden fade-in"
-                    data-category="catagory-3" data-price="1200" data-availability="in-stock">
-                    <div class="product-image h-48">
-                        <div class="h-full bg-cover bg-center" style="background-image: url('./Image/product-1.jpg')"></div>
-                        <div class="product-overlay">
-                            <a href="./documents/coa.pdf" download>COA</a>
-                            <a href="./documents/msds.pdf" download>MSDS</a>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-start justify-between mb-3">
-                            <h3 class="text-lg font-semibold text-gray-900">Aromatics</h3>
-                            <div class="flex items-center space-x-1">
-                                <div class="availability-dot bg-green-500"></div>
-                                <span class="text-xs text-green-600 font-medium">In Stock</span>
+
+                <!-- Product Card 4 -->
+                <div class="product-card fade-in" data-category="aromatics" data-availability="limited">
+                    <div class="product-header">
+                        <div class="flex items-start justify-between">
+                            <h3 class="product-title">Benzene Derivatives</h3>
+                            <div class="availability-badge" style="background: rgba(251, 191, 36, 0.1); border-color: rgba(251, 191, 36, 0.2);">
+                                <div class="availability-dot" style="background: #f59e0b;"></div>
+                                <span class="text-xs font-medium" style="color: #f59e0b;">Limited Stock</span>
                             </div>
                         </div>
-                        <div class="space-y-2 mb-4">
-                            <p class="text-sm text-gray-600">
-                                <ul class="list-disc pl-5">
-                                    <li>Toluene</li>
-                                    <li>Mixed Xylene (Solvent & Isomer Grade)</li>
-                                    <li>Solvent C9</li>
-                                    <li>Ortho-Xylene</li>
-                                    <li>White Spirit (MTO)</li>
-                                    <li>Phenol</li>
-                                    <li>Acetone</li>
-                                    <li>C10</li>
-                                    <li>Styrene Monomer (SM)</li>
-                                    <li>Heavy Aromatics</li>
-                                    <li>Pyrolysis Gasoline (Pygas)</li>
-                                </ul>
-                            </p>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <a href="./contact.html">
-                                <button
-                                    class="inquire-btn bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
-                                    Inquire Now
-                                </button>
-                            </a>
+                    </div>
+                    <div class="product-content">
+                        <p class="product-description">
+                            High-purity benzene derivatives for chemical synthesis, pharmaceutical intermediates, and industrial processes.
+                        </p>
+                        <ul class="product-list">
+                            <li>Benzene - Pure grade</li>
+                            <li>Aniline - Technical grade</li>
+                            <li>Nitrobenzene - Industrial grade</li>
+                            <li>Chlorobenzene - Mono & Di variants</li>
+                            <li>Benzyl Alcohol - Pharmaceutical grade</li>
+                            <li>Benzaldehyde - Natural & synthetic</li>
+                            <li>Benzoic Acid - Food & technical grade</li>
+                            <li>Cumene - High purity</li>
+                        </ul>
+                        <div class="product-actions">
+                            <a href="./documents/coa.pdf" download class="download-btn">COA</a>
+                            <a href="./documents/msds.pdf" download class="download-btn">MSDS</a>
+                            <a href="./contact.html" class="inquire-btn">Inquire Now</a>
                         </div>
                     </div>
                 </div>
-                <div class="product-card bg-white rounded-lg border border-gray-200 overflow-hidden fade-in"
-                    data-category="catagory-2" data-price="1200" data-availability="in-stock">
-                    <div class="product-image h-48">
-                        <div class="h-full bg-cover bg-center" style="background-image: url('./Image/product-1.jpg')"></div>
-                        <div class="product-overlay">
-                            <a href="./documents/coa.pdf" download>COA</a>
-                            <a href="./documents/msds.pdf" download>MSDS</a>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-start justify-between mb-3">
-                            <h3 class="text-lg font-semibold text-gray-900">Aromatics</h3>
-                            <div class="flex items-center space-x-1">
-                                <div class="availability-dot bg-green-500"></div>
+
+                <!-- Product Card 5 -->
+                <div class="product-card fade-in" data-category="solvents" data-availability="in-stock">
+                    <div class="product-header">
+                        <div class="flex items-start justify-between">
+                            <h3 class="product-title">Paint & Coating Solvents</h3>
+                            <div class="availability-badge">
+                                <div class="availability-dot"></div>
                                 <span class="text-xs text-green-600 font-medium">In Stock</span>
                             </div>
                         </div>
-                        <div class="space-y-2 mb-4">
-                            <p class="text-sm text-gray-600">
-                                <ul class="list-disc pl-5">
-                                    <li>Toluene</li>
-                                    <li>Mixed Xylene (Solvent & Isomer Grade)</li>
-                                    <li>Solvent C9</li>
-                                    <li>Ortho-Xylene</li>
-                                    <li>White Spirit (MTO)</li>
-                                    <li>Phenol</li>
-                                    <li>Acetone</li>
-                                    <li>C10</li>
-                                    <li>Styrene Monomer (SM)</li>
-                                    <li>Heavy Aromatics</li>
-                                    <li>Pyrolysis Gasoline (Pygas)</li>
-                                </ul>
-                            </p>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <a href="./contact.html">
-                                <button
-                                    class="inquire-btn bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
-                                    Inquire Now
-                                </button>
-                            </a>
+                    </div>
+                    <div class="product-content">
+                        <p class="product-description">
+                            Specialized solvents for paint, coating, and ink manufacturing with excellent performance characteristics and environmental compliance.
+                        </p>
+                        <ul class="product-list">
+                            <li>Butyl Glycol - Paint solvent</li>
+                            <li>Propylene Glycol - Non-toxic solvent</li>
+                            <li>Dipropylene Glycol - Low volatility</li>
+                            <li>Ethylene Glycol - Antifreeze grade</li>
+                            <li>Diethylene Glycol - Industrial grade</li>
+                            <li>Mineral Turpentine - Paint thinner</li>
+                            <li>Naphtha - Solvent grade</li>
+                            <li>Cyclohexanone - Ketone solvent</li>
+                        </ul>
+                        <div class="product-actions">
+                            <a href="./documents/coa.pdf" download class="download-btn">COA</a>
+                            <a href="./documents/msds.pdf" download class="download-btn">MSDS</a>
+                            <a href="./contact.html" class="inquire-btn">Inquire Now</a>
                         </div>
                     </div>
                 </div>
-                <div class="product-card bg-white rounded-lg border border-gray-200 overflow-hidden fade-in"
-                    data-category="catagory-2" data-price="1200" data-availability="in-stock">
-                    <div class="product-image h-48">
-                        <div class="h-full bg-cover bg-center" style="background-image: url('./Image/product-1.jpg')"></div>
-                        <div class="product-overlay">
-                            <a href="./documents/coa.pdf" download>COA</a>
-                            <a href="./documents/msds.pdf" download>MSDS</a>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-start justify-between mb-3">
-                            <h3 class="text-lg font-semibold text-gray-900">Aromatics</h3>
-                            <div class="flex items-center space-x-1">
-                                <div class="availability-dot bg-green-500"></div>
-                                <span class="text-xs text-green-600 font-medium">In Stock</span>
+
+                <!-- Product Card 6 -->
+                <div class="product-card fade-in" data-category="chemicals" data-availability="pre-order">
+                    <div class="product-header">
+                        <div class="flex items-start justify-between">
+                            <h3 class="product-title">Pharmaceutical Intermediates</h3>
+                            <div class="availability-badge" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2);">
+                                <div class="availability-dot" style="background: #ef4444;"></div>
+                                <span class="text-xs font-medium" style="color: #ef4444;">Pre-order</span>
                             </div>
                         </div>
-                        <div class="space-y-2 mb-4">
-                            <p class="text-sm text-gray-600">
-                                <ul class="list-disc pl-5">
-                                    <li>Toluene</li>
-                                    <li>Mixed Xylene (Solvent & Isomer Grade)</li>
-                                    <li>Solvent C9</li>
-                                    <li>Ortho-Xylene</li>
-                                    <li>White Spirit (MTO)</li>
-                                    <li>Phenol</li>
-                                    <li>Acetone</li>
-                                    <li>C10</li>
-                                    <li>Styrene Monomer (SM)</li>
-                                    <li>Heavy Aromatics</li>
-                                    <li>Pyrolysis Gasoline (Pygas)</li>
-                                </ul>
-                            </p>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <a href="./contact.html">
-                                <button
-                                    class="inquire-btn bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
-                                    Inquire Now
-                                </button>
-                            </a>
+                    </div>
+                    <div class="product-content">
+                        <p class="product-description">
+                            High-purity pharmaceutical intermediates and active pharmaceutical ingredients (APIs) manufactured under strict GMP conditions.
+                        </p>
+                        <ul class="product-list">
+                            <li>Paracetamol - USP grade</li>
+                            <li>Aspirin - Pharmaceutical grade</li>
+                            <li>Ibuprofen - API quality</li>
+                            <li>Caffeine - Anhydrous USP</li>
+                            <li>Citric Acid - Food & pharma grade</li>
+                            <li>Ascorbic Acid - Vitamin C USP</li>
+                            <li>Salicylic Acid - Cosmetic grade</li>
+                            <li>Benzoyl Peroxide - Pharmaceutical</li>
+                        </ul>
+                        <div class="product-actions">
+                            <a href="./documents/coa.pdf" download class="download-btn">COA</a>
+                            <a href="./documents/msds.pdf" download class="download-btn">MSDS</a>
+                            <a href="./contact.html" class="inquire-btn">Inquire Now</a>
                         </div>
                     </div>
                 </div>
-                <div class="product-card bg-white rounded-lg border border-gray-200 overflow-hidden fade-in"
-                    data-category="catagory-3" data-price="1200" data-availability="in-stock">
-                    <div class="product-image h-48">
-                        <div class="h-full bg-cover bg-center" style="background-image: url('./Image/product-1.jpg')"></div>
-                        <div class="product-overlay">
-                            <a href="./documents/coa.pdf" download>COA</a>
-                            <a href="./documents/msds.pdf" download>MSDS</a>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-start justify-between mb-3">
-                            <h3 class="text-lg font-semibold text-gray-900">Aromatics</h3>
-                            <div class="flex items-center space-x-1">
-                                <div class="availability-dot bg-green-500"></div>
+
+                <!-- Product Card 7 -->
+                <div class="product-card fade-in" data-category="aromatics" data-availability="in-stock">
+                    <div class="product-header">
+                        <div class="flex items-start justify-between">
+                            <h3 class="product-title">Heavy Aromatics</h3>
+                            <div class="availability-badge">
+                                <div class="availability-dot"></div>
                                 <span class="text-xs text-green-600 font-medium">In Stock</span>
                             </div>
                         </div>
-                        <div class="space-y-2 mb-4">
-                            <p class="text-sm text-gray-600">
-                                <ul class="list-disc pl-5">
-                                    <li>Toluene</li>
-                                    <li>Mixed Xylene (Solvent & Isomer Grade)</li>
-                                    <li>Solvent C9</li>
-                                    <li>Ortho-Xylene</li>
-                                    <li>White Spirit (MTO)</li>
-                                    <li>Phenol</li>
-                                    <li>Acetone</li>
-                                    <li>C10</li>
-                                    <li>Styrene Monomer (SM)</li>
-                                    <li>Heavy Aromatics</li>
-                                    <li>Pyrolysis Gasoline (Pygas)</li>
-                                </ul>
-                            </p>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <a href="./contact.html">
-                                <button
-                                    class="inquire-btn bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
-                                    Inquire Now
-                                </button>
-                            </a>
+                    </div>
+                    <div class="product-content">
+                        <p class="product-description">
+                            Premium heavy aromatic compounds for specialized industrial applications, rubber processing, and chemical manufacturing.
+                        </p>
+                        <ul class="product-list">
+                            <li>C10 Aromatics - Heavy solvent</li>
+                            <li>Pyrolysis Gasoline (Pygas)</li>
+                            <li>Heavy Aromatics Naphtha</li>
+                            <li>Reformate - High octane</li>
+                            <li>Aromatic Extract - Lubricant base</li>
+                            <li>Coal Tar Pitch - Binding agent</li>
+                            <li>Creosote Oil - Wood preservative</li>
+                            <li>Anthracene Oil - Chemical feedstock</li>
+                        </ul>
+                        <div class="product-actions">
+                            <a href="./documents/coa.pdf" download class="download-btn">COA</a>
+                            <a href="./documents/msds.pdf" download class="download-btn">MSDS</a>
+                            <a href="./contact.html" class="inquire-btn">Inquire Now</a>
                         </div>
                     </div>
                 </div>
-                <div class="product-card bg-white rounded-lg border border-gray-200 overflow-hidden fade-in"
-                    data-category="catagory-1" data-price="1200" data-availability="in-stock">
-                    <div class="product-image h-48">
-                        <div class="h-full bg-cover bg-center" style="background-image: url('./Image/product-1.jpg')"></div>
-                        <div class="product-overlay">
-                            <a href="./documents/coa.pdf" download>COA</a>
-                            <a href="./documents/msds.pdf" download>MSDS</a>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-start justify-between mb-3">
-                            <h3 class="text-lg font-semibold text-gray-900">Aromatics</h3>
-                            <div class="flex items-center space-x-1">
-                                <div class="availability-dot bg-green-500"></div>
+
+                <!-- Product Card 8 -->
+                <div class="product-card fade-in" data-category="solvents" data-availability="in-stock">
+                    <div class="product-header">
+                        <div class="flex items-start justify-between">
+                            <h3 class="product-title">Electronic Grade Solvents</h3>
+                            <div class="availability-badge">
+                                <div class="availability-dot"></div>
                                 <span class="text-xs text-green-600 font-medium">In Stock</span>
                             </div>
                         </div>
-                        <div class="space-y-2 mb-4">
-                            <p class="text-sm text-gray-600">
-                                <ul class="list-disc pl-5">
-                                    <li>Toluene</li>
-                                    <li>Mixed Xylene (Solvent & Isomer Grade)</li>
-                                    <li>Solvent C9</li>
-                                    <li>Ortho-Xylene</li>
-                                    <li>White Spirit (MTO)</li>
-                                    <li>Phenol</li>
-                                    <li>Acetone</li>
-                                    <li>C10</li>
-                                    <li>Styrene Monomer (SM)</li>
-                                    <li>Heavy Aromatics</li>
-                                    <li>Pyrolysis Gasoline (Pygas)</li>
-                                </ul>
-                            </p>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <a href="./contact.html">
-                                <button
-                                    class="inquire-btn bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
-                                    Inquire Now
-                                </button>
-                            </a>
+                    </div>
+                    <div class="product-content">
+                        <p class="product-description">
+                            Ultra-pure electronic grade solvents for semiconductor manufacturing, electronics cleaning, and precision applications.
+                        </p>
+                        <ul class="product-list">
+                            <li>Electronic Grade IPA - 99.9% purity</li>
+                            <li>Electronic Grade Acetone</li>
+                            <li>Semiconductor Grade Methanol</li>
+                            <li>VLSI Grade Ethanol</li>
+                            <li>Ultra Pure DI Water</li>
+                            <li>Electronic Grade MEK</li>
+                            <li>Photoresist Stripper</li>
+                            <li>Wafer Cleaning Solvents</li>
+                        </ul>
+                        <div class="product-actions">
+                            <a href="./documents/coa.pdf" download class="download-btn">COA</a>
+                            <a href="./documents/msds.pdf" download class="download-btn">MSDS</a>
+                            <a href="./contact.html" class="inquire-btn">Inquire Now</a>
                         </div>
                     </div>
                 </div>
-                <div class="product-card bg-white rounded-lg border border-gray-200 overflow-hidden fade-in"
-                    data-category="catagory-2" data-price="1200" data-availability="in-stock">
-                    <div class="product-image h-48">
-                        <div class="h-full bg-cover bg-center" style="background-image: url('./Image/product-1.jpg')"></div>
-                        <div class="product-overlay">
-                            <a href="./documents/coa.pdf" download>COA</a>
-                            <a href="./documents/msds.pdf" download>MSDS</a>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-start justify-between mb-3">
-                            <h3 class="text-lg font-semibold text-gray-900">Aromatics</h3>
-                            <div class="flex items-center space-x-1">
-                                <div class="availability-dot bg-green-500"></div>
+
+                <!-- Product Card 9 -->
+                <div class="product-card fade-in" data-category="chemicals" data-availability="in-stock">
+                    <div class="product-header">
+                        <div class="flex items-start justify-between">
+                            <h3 class="product-title">Polymer Additives</h3>
+                            <div class="availability-badge">
+                                <div class="availability-dot"></div>
                                 <span class="text-xs text-green-600 font-medium">In Stock</span>
                             </div>
                         </div>
-                        <div class="space-y-2 mb-4">
-                            <p class="text-sm text-gray-600">
-                                <ul class="list-disc pl-5">
-                                    <li>Toluene</li>
-                                    <li>Mixed Xylene (Solvent & Isomer Grade)</li>
-                                    <li>Solvent C9</li>
-                                    <li>Ortho-Xylene</li>
-                                    <li>White Spirit (MTO)</li>
-                                    <li>Phenol</li>
-                                    <li>Acetone</li>
-                                    <li>C10</li>
-                                    <li>Styrene Monomer (SM)</li>
-                                    <li>Heavy Aromatics</li>
-                                    <li>Pyrolysis Gasoline (Pygas)</li>
-                                </ul>
-                            </p>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <a href="./contact.html">
-                                <button
-                                    class="inquire-btn bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
-                                    Inquire Now
-                                </button>
-                            </a>
-                        </div>
                     </div>
-                </div>
-                <div class="product-card bg-white rounded-lg border border-gray-200 overflow-hidden fade-in"
-                    data-category="catagory-1" data-price="1200" data-availability="in-stock">
-                    <div class="product-image h-48">
-                        <div class="h-full bg-cover bg-center" style="background-image: url('./Image/product-1.jpg')"></div>
-                        <div class="product-overlay">
-                            <a href="./documents/coa.pdf" download>COA</a>
-                            <a href="./documents/msds.pdf" download>MSDS</a>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-start justify-between mb-3">
-                            <h3 class="text-lg font-semibold text-gray-900">Aromatics</h3>
-                            <div class="flex items-center space-x-1">
-                                <div class="availability-dot bg-green-500"></div>
-                                <span class="text-xs text-green-600 font-medium">In Stock</span>
-                            </div>
-                        </div>
-                        <div class="space-y-2 mb-4">
-                            <p class="text-sm text-gray-600">
-                                <ul class="list-disc pl-5">
-                                    <li>Toluene</li>
-                                    <li>Mixed Xylene (Solvent & Isomer Grade)</li>
-                                    <li>Solvent C9</li>
-                                    <li>Ortho-Xylene</li>
-                                    <li>White Spirit (MTO)</li>
-                                    <li>Phenol</li>
-                                    <li>Acetone</li>
-                                    <li>C10</li>
-                                    <li>Styrene Monomer (SM)</li>
-                                    <li>Heavy Aromatics</li>
-                                    <li>Pyrolysis Gasoline (Pygas)</li>
-                                </ul>
-                            </p>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <a href="./contact.html">
-                                <button
-                                    class="inquire-btn bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
-                                    Inquire Now
-                                </button>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-card bg-white rounded-lg border border-gray-200 overflow-hidden fade-in"
-                    data-category="catagory-3" data-price="1200" data-availability="in-stock">
-                    <div class="product-image h-48">
-                        <div class="h-full bg-cover bg-center" style="background-image: url('./Image/product-1.jpg')"></div>
-                        <div class="product-overlay">
-                            <a href="./documents/coa.pdf" download>COA</a>
-                            <a href="./documents/msds.pdf" download>MSDS</a>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-start justify-between mb-3">
-                            <h3 class="text-lg font-semibold text-gray-900">Aromatics</h3>
-                            <div class="flex items-center space-x-1">
-                                <div class="availability-dot bg-green-500"></div>
-                                <span class="text-xs text-green-600 font-medium">In Stock</span>
-                            </div>
-                        </div>
-                        <div class="space-y-2 mb-4">
-                            <p class="text-sm text-gray-600">
-                                <ul class="list-disc pl-5">
-                                    <li>Toluene</li>
-                                    <li>Mixed Xylene (Solvent & Isomer Grade)</li>
-                                    <li>Solvent C9</li>
-                                    <li>Ortho-Xylene</li>
-                                    <li>White Spirit (MTO)</li>
-                                    <li>Phenol</li>
-                                    <li>Acetone</li>
-                                    <li>C10</li>
-                                    <li>Styrene Monomer (SM)</li>
-                                    <li>Heavy Aromatics</li>
-                                    <li>Pyrolysis Gasoline (Pygas)</li>
-                                </ul>
-                            </p>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <a href="./contact.html">
-                                <button
-                                    class="inquire-btn bg-primary hover:bg-blue-700 text-white px-4 py-2 !rounded-button text-sm font-medium transition-colors whitespace-nowrap">
-                                    Inquire Now
-                                </button>
-                            </a>
+                    <div class="product-content">
+                        <p class="product-description">
+                            Advanced polymer additives and processing aids for plastic manufacturing, enhancement of material properties, and production efficiency.
+                        </p>
+                        <ul class="product-list">
+                            <li>Antioxidants - BHT, BHA variants</li>
+                            <li>UV Stabilizers - Hindered amine</li>
+                            <li>Plasticizers - DOP, DINP, DOTP</li>
+                            <li>Flame Retardants - Halogen-free</li>
+                            <li>Processing Aids - Lubricants</li>
+                            <li>Impact Modifiers - Toughening agents</li>
+                            <li>Colorants - Organic pigments</li>
+                            <li>Blowing Agents - Foaming chemicals</li>
+                        </ul>
+                        <div class="product-actions">
+                            <a href="./documents/coa.pdf" download class="download-btn">COA</a>
+                            <a href="./documents/msds.pdf" download class="download-btn">MSDS</a>
+                            <a href="./contact.html" class="inquire-btn">Inquire Now</a>
                         </div>
                     </div>
                 </div>
@@ -1123,92 +1180,78 @@
             </div>
         </footer>
 
-        <script id="filter-toggle">
+        <script>
             document.addEventListener('DOMContentLoaded', function () {
-                const filterToggle = document.getElementById('filter-toggle');
-                const filterPanel = document.getElementById('filter-panel');
-                filterToggle.addEventListener('click', function () {
-                    filterPanel.classList.toggle('open');
-                });
-            });
-        </script>
+                // Mobile menu toggle
+                const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+                const mobileMenu = document.getElementById('mobile-menu');
 
-        <script id="category-tabs">
-            document.addEventListener('DOMContentLoaded', function () {
+                mobileMenuBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    mobileMenu.classList.toggle('open');
+                    mobileMenuBtn.classList.toggle('active');
+                });
+
+                // Close mobile menu when clicking a nav item
+                document.querySelectorAll('#mobile-menu .nav-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        mobileMenu.classList.remove('open');
+                        mobileMenuBtn.classList.remove('active');
+                    });
+                });
+
+                // Close mobile menu on outside click
+                document.addEventListener('click', function (event) {
+                    if (!mobileMenu.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+                        mobileMenu.classList.remove('open');
+                        mobileMenuBtn.classList.remove('active');
+                    }
+                });
+
+                // Prevent mobile menu from closing when clicking inside it
+                mobileMenu.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+
+                // Category tabs functionality
                 const categoryTabs = document.querySelectorAll('.category-tab');
                 const productCards = document.querySelectorAll('.product-card');
+
                 categoryTabs.forEach(tab => {
                     tab.addEventListener('click', function () {
                         categoryTabs.forEach(t => {
                             t.classList.remove('active');
                             t.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
                         });
+
                         this.classList.add('active');
                         this.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+
                         const category = this.getAttribute('data-category');
-                        productCards.forEach(card => {
+
+                        productCards.forEach((card, index) => {
                             if (category === 'all' || card.getAttribute('data-category') === category) {
                                 card.style.display = 'block';
+                                setTimeout(() => {
+                                    card.classList.add('visible');
+                                }, index * 100);
                             } else {
-                                card.style.display = 'none';
+                                card.classList.remove('visible');
+                                setTimeout(() => {
+                                    card.style.display = 'none';
+                                }, 300);
                             }
                         });
                     });
                 });
-            });
-        </script>
 
-        <script id="search-functionality">
-            document.addEventListener('DOMContentLoaded', function () {
-                const searchInput = document.getElementById('main-search');
-                const searchResults = document.getElementById('search-results');
-                const productCards = document.querySelectorAll('.product-card');
-                const products = [
-                    'Benzene', 'Toluene', 'Acetaminophen', 'Ethylene Glycol',
-                    'Methanol', 'Aspirin API', 'Styrene Monomer', 'Acetone'
-                ];
-                searchInput.addEventListener('input', function () {
-                    const query = this.value.toLowerCase();
-                    if (query.length > 0) {
-                        const filteredProducts = products.filter(product =>
-                            product.toLowerCase().includes(query)
-                        );
-                        if (filteredProducts.length > 0) {
-                            searchResults.innerHTML = filteredProducts.map(product =>
-                                `<div class="px-4 py-2 hover:bg-gray-50 cursor-pointer text-sm">${product}</div>`
-                            ).join('');
-                            searchResults.classList.remove('hidden');
-                        } else {
-                            searchResults.classList.add('hidden');
-                        }
-                    } else {
-                        searchResults.classList.add('hidden');
-                    }
-                });
-                document.addEventListener('click', function (e) {
-                    if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
-                        searchResults.classList.add('hidden');
-                    }
-                });
-            });
-        </script>
-
-        <script id="price-range">
-            document.addEventListener('DOMContentLoaded', function () {
-                const priceRange = document.getElementById('price-range');
-                const priceValue = document.getElementById('price-value');
-                priceRange.addEventListener('input', function () {
-                    priceValue.textContent = `$${parseInt(this.value).toLocaleString()}`;
-                });
-            });
-        </script>
-
-        <script id="scroll-animations">
-            document.addEventListener('DOMContentLoaded', function () {
+                // Scroll animations
                 const observerOptions = {
                     threshold: 0.1,
                     rootMargin: '0px 0px -50px 0px'
                 };
+
                 const observer = new IntersectionObserver(function (entries) {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
@@ -1216,14 +1259,12 @@
                         }
                     });
                 }, observerOptions);
+
                 document.querySelectorAll('.fade-in').forEach(el => {
                     observer.observe(el);
                 });
-            });
-        </script>
 
-        <script id="back-to-top">
-            document.addEventListener('DOMContentLoaded', function () {
+                // Back to top button
                 const backToTop = document.getElementById('back-to-top');
                 window.addEventListener('scroll', function () {
                     if (window.scrollY > 300) {
@@ -1234,21 +1275,60 @@
                         backToTop.classList.remove('opacity-100');
                     }
                 });
+
                 backToTop.addEventListener('click', function () {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        });
-    </script>
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
 
-    <script id="contact-fab">
-        document.addEventListener('DOMContentLoaded', function () {
-            const contactFab = document.getElementById('contact-fab');
-            contactFab.addEventListener('click', function () {
-                alert('Contact form would open here. You can implement a modal or redirect to contact page.');
-            });
-        });
-    </script>
+                // Enhanced product card interactions
+                productCards.forEach(card => {
+                    card.addEventListener('mouseenter', function() {
+                        this.style.zIndex = '10';
+                    });
+                    
+                    card.addEventListener('mouseleave', function() {
+                        this.style.zIndex = '1';
+                    });
+                });
 
+                // Add loading animation to download buttons
+                document.querySelectorAll('.download-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const originalText = this.textContent;
+                        this.textContent = 'Downloading...';
+                        this.style.pointerEvents = 'none';
+                        
+                        setTimeout(() => {
+                            this.textContent = originalText;
+                            this.style.pointerEvents = 'auto';
+                        }, 2000);
+                    });
+                });
+
+                // Stagger animation for product cards on load
+                setTimeout(() => {
+                    productCards.forEach((card, index) => {
+                        setTimeout(() => {
+                            card.classList.add('visible');
+                        }, index * 150);
+                    });
+                }, 300);
+            });
+
+            // Add dynamic navbar effect
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.nav-container');
+                if (window.scrollY > 100) {
+                    navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                    navbar.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.15)';
+                } else {
+                    navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                    navbar.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)';
+                }
+            });
+        </script>
+
+    </div>
 </body>
 
 </html>
